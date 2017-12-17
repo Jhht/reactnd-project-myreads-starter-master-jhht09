@@ -27,8 +27,7 @@ class BookEntry extends Component {
 		return (
 		        <div className="book">
 		            <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: 'url("{book.imageLinks.smallThumbnail}")' }}></div>
-		                
+                        <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: "url(" + book.imageLinks.thumbnail + ")" }}></div>            
 						<form  className="book-shelf-changer">
 			                <select value={book.shelf} onChange={e => this.handleSubmit(book, e)} >
 			                    <option value="none" disabled>Move to...</option>
