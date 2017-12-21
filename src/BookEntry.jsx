@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import serializeForm from 'form-serialize'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
+import { Link } from 'react-router-dom'
 
 
 class BookEntry extends Component {
@@ -27,8 +25,7 @@ class BookEntry extends Component {
 		return (
 		        <div className="book">
 		            <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: "url(" + book.imageLinks.thumbnail + ")" }}></div>            
-						<form  className="book-shelf-changer">
+ 							<img className="book-cover" src={book.imageLinks != null ? book.imageLinks.thumbnail : undefined} alt="" />						<form  className="book-shelf-changer">
 			                <select value={book.shelf} onChange={e => this.handleSubmit(book, e)} >
 			                    <option value="none" disabled>Move to...</option>
 								<option value="currentlyReading">Currently Reading</option>
@@ -41,6 +38,7 @@ class BookEntry extends Component {
 		            </div>
 		         	<div className="book-title">{book.title}</div>
 		            <div className="book-authors">{book.author}</div>
+		            <Link to={`/details/${book.id}`} > Details </Link>
 		        </div>
 		)
 	}

@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import BookEntry from './BookEntry'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
+import * as BooksAPI from './BooksAPI';
 
 class SearchPage extends Component {
 
@@ -13,38 +12,38 @@ class SearchPage extends Component {
 	
 
 	state = {//CMP INTERNAL STATE
-		query : ''
+		query : '',
+		displayBooks : []
 	}
 
 	updateQuery = (query) => {//UPDATE QUERY FROM SEARCH BAR
-		this.setState({ query : query })
+		this.setState({ query : query})
+	    if (query.length > 0) {
+	      BooksAPI.search(query, 20).then((searchedBooks) => {
+	        const displayBooks = searchedBooks && !searchedBooks.hasOwnProperty("error") ? searchedBooks : [];
+	        BooksAPI.getAll().then((books) => {
+	          for (const displayBook of displayBooks) {
+	            const shelfBook = books.find(book => book.id === displayBook.id)
+	            if (shelfBook)
+	              displayBook.shelf = shelfBook.shelf;
+	          }
+	          this.setState({ displayBooks  });
+	        });
+	      });
+    	}
 	}
 
-	clearQuery = () => {//CLEAR QUERY FROM SEARCH BAR
-		this.setState({query : ''})
+	updateBook = (book, shelf) => {
+		
+		if(this.props.onUpdateBookLibrary)
+			this.props.onUpdateBookLibrary(book , shelf)
 	}
 
 
 	render(){
 		const { query } = this.state
-		const books = this.props.books
-
-		let showingBooks//VAR, ES6
-
-		if (query){//SEARCH BAR LOGIC
-
-			const match = new RegExp(escapeRegExp(query), 'i')
-
-			showingBooks = this.props.books.filter((book) => match.test(book.title)||match.test(book.authors))
-
-		
-			console.log(showingBooks)
-		}else{
-			showingBooks = books
-		}
-
-		showingBooks.sort(sortBy('title'))//SORT
-
+	
+		console.log(this.state.displayBooks)
 		return (
 			<div className="search-books">
 	            <div className="search-books-bar">
@@ -67,11 +66,11 @@ class SearchPage extends Component {
 	              </div>
 	            </div>
 	            <div className="search-books-results">
-	              <ol className="books-grid">
-						{showingBooks.map((book) =>(
+	              <ol className="books-grid" id="search-grid">
+						{this.state.displayBooks.map((book) =>(
 							<li key={book.id}>
-								<BookEntry book = {book} onUpdateBook={(book, shelf) => {
-              						this.updateBook(book, shelf) }}/>
+								<BookEntry book={book} onUpdateBook={(book, shelf) => {
+              						this.updateBook(book, shelf)}}/>
 							</li>
 					    ))}
 					</ol>

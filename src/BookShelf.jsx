@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import BookEntry from './BookEntry'
 import PropTypes from 'prop-types'
 
-
 class BookShelf extends Component {
 
 
@@ -29,10 +28,10 @@ class BookShelf extends Component {
 			<div className="bookshelf">
 	            <h2 className="bookshelf-title">{shelfName}</h2>
 					<div className="bookshelf-books">
-						<ol className="books-grid">
+						<ol className="books-grid" id="books-grid">
 							{shelfBooks.map((book) =>(
 								<li key={book.id}>
-									<BookEntry book = {book} onUpdateBook={(book, shelf) => {
+									<BookEntry book={book} onUpdateBook={(book, shelf) => {
               							this.updateBook(book, shelf) }}/>
 								</li>
 					        ))}
