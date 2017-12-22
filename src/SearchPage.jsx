@@ -11,19 +11,16 @@ class SearchPage extends Component {
 	}
 	
 
-	state = {//CMP INTERNAL STATE
+	state = {
 		query : '',
 		displayBooks : []
 	}
 
-	updateQuery = (query) => {//UPDATE QUERY FROM SEARCH BAR
-		this.setState({ query : query})
+	updateQuery = (query) => {
+		this.setState({ query : query});
 	    if (query.length > 0) {
 	      BooksAPI.search(query, 20).then((searchedBooks) => {
 	        const displayBooks = searchedBooks && !searchedBooks.hasOwnProperty("error") ? searchedBooks : [];
-	        //busca los que ya esten en props y ponles el mismo estado
-
-
 
 	        BooksAPI.getAll().then((books) => {
 	          
@@ -50,13 +47,14 @@ class SearchPage extends Component {
 
 	updateBook = (book, shelf) => {
 		
-		if(this.props.onUpdateBookLibrary)
-			this.props.onUpdateBookLibrary(book , shelf)
+		if(this.props.onUpdateBookLibrary){
+			this.props.onUpdateBookLibrary(book , shelf);
+		}
 	}
 
 
 	render(){
-		const { query } = this.state
+		const { query } = this.state;
 	
 		return (
 			<div className="search-books">

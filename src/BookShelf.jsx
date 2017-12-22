@@ -10,20 +10,18 @@ class BookShelf extends Component {
 		shelfName : PropTypes.string.isRequired
 	}
 
-	state = {
-
-	}
 
 	updateBook = (book ,shelf) => {
 
-		if(this.props.onUpdateBookLibrary)
+		if(this.props.onUpdateBookLibrary){
 			this.props.onUpdateBookLibrary(book , shelf)
+		}
 	}
 
 
 	render(){
-		const shelfBooks = this.props.shelfBooks
-		const shelfName = this.props.shelfName
+		const shelfBooks = this.props.shelfBooks;
+		const shelfName = this.props.shelfName;
 		return (
 			<div className="bookshelf">
 	            <h2 className="bookshelf-title">{shelfName}</h2>

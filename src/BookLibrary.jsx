@@ -14,23 +14,19 @@ class BookLibrary extends Component {
 	}
 
 	updateBook = (book, shelf) => {
-		console.log(book + ' -- ' + shelf)
-
 		let temp = this.props.books;
-	    book.shelf = shelf
+	    book.shelf = shelf;
 	    BooksAPI.update(book, shelf).then(response => {
 	    	this.setState({
 	    		books: temp
 	     	})
-		})
+		});
 	}
 
 
 	render(){
 
-		const books = this.props.books
-		console.log(books)
-
+		const books = this.props.books;
 
 		return (
 			<div className="list-books">

@@ -10,17 +10,17 @@ class BookEntry extends Component {
 	}
 
 	handleSubmit = (book ,e) => {
-		e.preventDefault()
-		console.log(' handleSubmit ' + e.target.value)
+		e.preventDefault();
 
-		if(this.props.onUpdateBook)
-			this.props.onUpdateBook(book , e.target.value)
+		if(this.props.onUpdateBook){
+			this.props.onUpdateBook(book , e.target.value);
+		}
 	}
 
 
 	render(){
 
-		const { book } = this.props
+		const { book } = this.props;
 
 		return (
 		        <div className="book">

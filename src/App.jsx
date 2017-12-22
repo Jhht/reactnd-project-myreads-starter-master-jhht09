@@ -39,26 +39,22 @@ class BooksApp extends Component {
     componentDidMount(){
       BooksAPI.getAll().then((books) => {
         this.setState({books})
-      })
+      });
     }
 
     updateBook = (book, shelf) => {
       console.log(book + ' -- ' + shelf)
 
-      book.shelf = shelf
+      book.shelf = shelf;
       BooksAPI.update(book, shelf).then(response => {
         BooksAPI.getAll().then(books => {
           book.shelf = books.find(b => b.id === book.id).shelf
-          //books.push(book)
-          console.log('añadido libro')
           this.setState({ books : books})
         });
     })
   }
 
     render(){///details is under development
-      console.log('----')
-      console.log(this.state.books)
       return (
         <div className="app">
           <Route exact path="/" render={() => (
