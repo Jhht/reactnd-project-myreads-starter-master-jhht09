@@ -21,13 +21,28 @@ class SearchPage extends Component {
 	    if (query.length > 0) {
 	      BooksAPI.search(query, 20).then((searchedBooks) => {
 	        const displayBooks = searchedBooks && !searchedBooks.hasOwnProperty("error") ? searchedBooks : [];
+	        //busca los que ya esten en props y ponles el mismo estado
+
+
+
 	        BooksAPI.getAll().then((books) => {
-	          for (const displayBook of displayBooks) {
-	            const shelfBook = books.find(book => book.id === displayBook.id)
-	            if (shelfBook)
-	              displayBook.shelf = shelfBook.shelf;
-	          }
-	          this.setState({ displayBooks  });
+	          
+	          	for(const appStateBook of this.props.books){
+	          		for (let displayBook of displayBooks) {
+		      			if(displayBook.id !== appStateBook.id){
+	        				displayBook.shelf = 'noneSelect';
+	        			}
+	          		}
+	            }
+
+	          	for(const appStateBook of this.props.books){
+	          		for (let displayBook of displayBooks) {
+		      			if(displayBook.id === appStateBook.id){
+	        				displayBook.shelf = appStateBook.shelf;
+	        			}
+	          		}
+	            }
+	          	this.setState({ displayBooks  });
 	        });
 	      });
     	}
@@ -43,7 +58,6 @@ class SearchPage extends Component {
 	render(){
 		const { query } = this.state
 	
-		console.log(this.state.displayBooks)
 		return (
 			<div className="search-books">
 	            <div className="search-books-bar">

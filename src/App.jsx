@@ -49,7 +49,7 @@ class BooksApp extends Component {
       BooksAPI.update(book, shelf).then(response => {
         BooksAPI.getAll().then(books => {
           book.shelf = books.find(b => b.id === book.id).shelf
-          books.push(book)
+          //books.push(book)
           console.log('añadido libro')
           this.setState({ books : books})
         });
